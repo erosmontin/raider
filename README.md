@@ -10,7 +10,7 @@ read a multiraid file, get the noise and convert it into ismrmrd format.
 
 ```
 from raider_eros_montin import raider as rd
-exportNoiseFromRaid('multiraid.dat','outputname.h5',resolution=[1,1,1])
+rd.exportNoiseFromRaid('multiraid.dat','outputname.h5',resolution=[1,1,1])
 
 ```
 
