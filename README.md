@@ -1,6 +1,6 @@
 # Raider
 You got the name right?
-# installation
+# Installation
 ```
 pip install git+https:https://github.com/erosmontin/raider.git
 ```
