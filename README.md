@@ -4,7 +4,7 @@ You get the name right?
 ```
 pip install git+https:https://github.com/erosmontin/raider.git
 ```
-# read Noise KSpace from multiRaidFile
+# read Noise KSpace from a multi Raid file
 read a multiraid file, get the noise and convert it into ismrmrd format.
 
 
