@@ -1,6 +1,9 @@
 # Raider
 You get the name right?
-
+# installation
+```
+pip install git+https:https://github.com/erosmontin/raider.git
+```
 # read Noise kspace from multiraidfile
 
 ```
