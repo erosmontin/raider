@@ -1,5 +1,5 @@
 # Raider
-a package to read and convert multirai noise kspace to ismrmrd
+a package to read and convert multiraid noise kspace to ismrmrd
 
 # Installation
 ```
