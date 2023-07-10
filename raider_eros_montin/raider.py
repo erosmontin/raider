@@ -138,24 +138,32 @@ def KSpace2DtoISMRMRD(K,filename,resolution):
 
 
 
-def readMultiRaidNoise(filename,raid=0,avgrep=False,avgave=False,knoise_dwelltime = 5000):
+def readMultiRaidNoise(filename,raid=0,avgrep=False,avgave=False,knoise_dwelltime = 5000,slice=0):
     twix = twixtools.map_twix(filename)
     L=twix[raid]['noise']
     L.flags['average']['Rep'] = avgrep
     L.flags['average']['Ave'] = avgave 
-    K=L[0,0,0,0,0,0,0,0,0,0,0,0,:,:,:,:]
-    print(K.shape)
+    SL=11
+    # print(K.shape)
 # %                     theres's a dweltime also for noise but we decided to
 # %                      set it to value = 5000 Riccardo 
 #                        Riccardo Lattanzi on 05/23/2020
 # %                      knoise_dwelltime=DATA{x}.hdr.Meas.RealDwellTime(2);
 # %                      
-
-
-    
     kdata_dwelltim=np.max(twix[raid]["hdr"]["Meas"]["alDwellTime"])
     correction_factor = np.sqrt(knoise_dwelltime/kdata_dwelltim)
-    return K*correction_factor
+    
+    if isinstance(slice,str):
+        K=[]
+        if slice.lower()=='all':
+            K=[]
+            for sl in range(L.shape[SL]):
+                print(sl)
+                K.append(np.transpose(L[0,0,0,0,0,0,0,0,0,0,0,sl,0,:,:,:],[2,0,1])*correction_factor   )    
+        return K  
+    return np.transpose(L[0,0,0,0,0,0,0,0,0,0,0,slice,0,:,:,:],[2,0,1])
+
+
 
 
 def exportNoiseFromRaid(filename,outputname,resolution=[1,1,1]):
