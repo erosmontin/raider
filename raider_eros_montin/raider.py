@@ -138,14 +138,24 @@ def KSpace2DtoISMRMRD(K,filename,resolution):
 
 
 
-def readMultiRaidNoise(filename,avgrep=False,avgave=False):
+def readMultiRaidNoise(filename,raid=0,avgrep=False,avgave=False,knoise_dwelltime = 5000):
     twix = twixtools.map_twix(filename)
-    L=twix[0]['noise']
+    L=twix[raid]['noise']
     L.flags['average']['Rep'] = avgrep
     L.flags['average']['Ave'] = avgave 
     K=L[0,0,0,0,0,0,0,0,0,0,0,0,:,:,:,:]
     print(K.shape)
-    return K
+# %                     theres's a dweltime also for noise but we decided to
+# %                      set it to value = 5000 Riccardo 
+#                        Riccardo Lattanzi on 05/23/2020
+# %                      knoise_dwelltime=DATA{x}.hdr.Meas.RealDwellTime(2);
+# %                      
+
+
+    
+    kdata_dwelltim=np.max(twix[raid]["hdr"]["Meas"]["alDwellTime"])
+    correction_factor = np.sqrt(knoise_dwelltime/kdata_dwelltim)
+    return K*correction_factor
 
 
 def exportNoiseFromRaid(filename,outputname,resolution=[1,1,1]):
@@ -153,3 +163,7 @@ def exportNoiseFromRaid(filename,outputname,resolution=[1,1,1]):
     KSpace2DtoISMRMRD(K,outputname,resolution)
     
 
+
+if __name__=="__main__":
+     K=readMultiRaidNoise('/data/MYDATA/SNR_rawdata_examples/2018-07-31_BRAINO_scan/MULTI-RAID-FILE/meas_MID02317_FID373207_AXIAL_2D_GRE_1SL.dat',0,False,False)
+    
